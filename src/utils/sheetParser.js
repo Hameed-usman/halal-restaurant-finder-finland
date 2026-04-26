@@ -33,9 +33,16 @@ export const parseSheetData = (csvText) => {
     values.push(current.trim().replace(/^"|"$/g, ''))
 
     // Map headers to values
-    return headers.reduce((obj, header, index) => {
-      obj[header] = values[index] || ''
+    const row = headers.reduce((obj, header, index) => {
+      const val = values[index] || ''
+      if (header === 'lat' || header === 'lng') {
+        obj[header] = parseFloat(val)
+      } else {
+        obj[header] = val
+      }
       return obj
     }, {})
-  })
+
+    return row
+  }).filter(r => r.name && !isNaN(r.lat) && !isNaN(r.lng))
 }

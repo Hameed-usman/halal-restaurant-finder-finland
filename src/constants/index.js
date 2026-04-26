@@ -1,8 +1,8 @@
 export const MAP_DEFAULTS = {
-    center: [64.5, 26.0],
-    zoom: 6,
-    minZoom: 5,
-    maxZoom: 16,
+  center: [64.5, 26.0],
+  zoom: 6,
+  minZoom: 5,
+  maxZoom: 16,
 }
 
 export const NEAR_ME = {
@@ -12,12 +12,13 @@ export const NEAR_ME = {
 }
 
 export const CUISINE_COLORS = {
-    Turkish: '#E63946',
-    Arabic: '#2A9D8F',
-    Pakistani: '#E9C46A',
-    Indian: '#F4A261',
-    Somali: '#457B9D',
-    Default: '#6C757D',
+  Syrian: '#E63946',
+  Bangladeshi: '#2A9D8F',
+  Turkish: '#E9C46A',
+  Arabic: '#F4A261',
+  Somali: '#457B9D',
+  Indian: '#D62828',
+  Default: '#6C757D',
 }
 
 export const HALAL_STATUS = {

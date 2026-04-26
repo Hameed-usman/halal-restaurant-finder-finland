@@ -26,6 +26,8 @@ export function MapView({ onMapReady }) {
       <MapContainer
         center={MAP_DEFAULTS.center}
         zoom={MAP_DEFAULTS.zoom}
+        minZoom={MAP_DEFAULTS.minZoom}
+        maxZoom={MAP_DEFAULTS.maxZoom}
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
