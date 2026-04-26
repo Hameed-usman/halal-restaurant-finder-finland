@@ -13,7 +13,6 @@ export function RestaurantList() {
     <div className="flex flex-col h-full bg-[#f4f7f5] overflow-hidden p-6 gap-6">
       <div className="shrink-0">
         <h2 className="text-3xl font-extrabold text-[#0b4d2a] tracking-tight mb-4">
-        <h2 className="text-3xl font-extrabold text-[#0b4d2a] tracking-tight mb-4">
           Top Halal Restaurants
         </h2>
         
