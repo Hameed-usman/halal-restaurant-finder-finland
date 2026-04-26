@@ -5,7 +5,7 @@ import { LoadingSpinner } from '../UI/LoadingSpinner'
 
 export function RestaurantList() {
   const state = useRestaurantStore()
-  const filteredRestaurants = state.filteredRestaurants()
+  const filteredRestaurants = state.filteredRestaurants
   const selectedRestaurant = state.selectedRestaurant
   const setSelectedRestaurant = state.setSelectedRestaurant
   const loading = state.loading

@@ -1,41 +1,9 @@
 import { create } from 'zustand'
 import { calculateDistance } from '../utils/distanceCalculator'
 
-export const useRestaurantStore = create((set, get) => ({
-  restaurants: [],
-  selectedRestaurant: null,
-  searchQuery: '',
-  selectedCuisine: '',
-  userLocation: null,
-  nearMeActive: false,
-  nearestRestaurantIds: [],
-  loading: false,
-  error: null,
-
-  setRestaurants: (data) => set({ restaurants: data }),
-  setSelectedRestaurant: (restaurant) => set({ selectedRestaurant: restaurant }),
-  setSearchQuery: (query) => set({ searchQuery: query }),
-  setSelectedCuisine: (cuisine) => set({ selectedCuisine: cuisine }),
-  setUserLocation: (coords) => {
-    const { restaurants } = get()
-    if (coords && restaurants.length > 0) {
-      const distances = restaurants.map(r => ({
-        id: `${r.name}-${r.city}`,
-        distance: calculateDistance(coords.lat, coords.lng, r.lat, r.lng)
-      }))
-      distances.sort((a, b) => a.distance - b.distance)
-      const top5Ids = distances.slice(0, 5).map(d => d.id)
-      set({ userLocation: coords, nearestRestaurantIds: top5Ids })
-    } else {
-      set({ userLocation: coords, nearestRestaurantIds: [] })
-    }
-  },
-  setNearMeActive: (bool) => set({ nearMeActive: bool }),
-  setLoading: (bool) => set({ loading: bool }),
-  setError: (msg) => set({ error: msg }),
-
-  filteredRestaurants: () => {
-    const { restaurants, searchQuery, selectedCuisine, nearMeActive, userLocation } = get()
+export const useRestaurantStore = create((set, get) => {
+  // Helper to compute filtered restaurants
+  const computeFiltered = (restaurants, searchQuery, selectedCuisine, nearMeActive, userLocation) => {
     let result = [...restaurants]
 
     if (searchQuery !== '') {
@@ -52,18 +20,77 @@ export const useRestaurantStore = create((set, get) => ({
     }
 
     if (nearMeActive && userLocation) {
-      result.forEach((r) => {
-        r.distance = calculateDistance(userLocation.lat, userLocation.lng, r.lat, r.lng)
-      })
+      result = result.map(r => ({
+        ...r,
+        distance: calculateDistance(userLocation.lat, userLocation.lng, r.lat, r.lng)
+      }))
       result.sort((a, b) => a.distance - b.distance)
     }
 
     return result
-  },
+  }
 
-  availableCuisines: () => {
-    const { restaurants } = get()
-    const cuisines = new Set(restaurants.map((r) => r.cuisine).filter(Boolean))
-    return Array.from(cuisines).sort()
-  },
-}))
+  return {
+    restaurants: [],
+    filteredRestaurants: [],
+    availableCuisines: [],
+    selectedRestaurant: null,
+    searchQuery: '',
+    selectedCuisine: '',
+    userLocation: null,
+    nearMeActive: false,
+    nearestRestaurantIds: [],
+    loading: false,
+    error: null,
+
+    setRestaurants: (data) => {
+      const cuisines = new Set(data.map((r) => r.cuisine).filter(Boolean))
+      const availableCuisines = Array.from(cuisines).sort()
+      set((state) => ({ 
+        restaurants: data, 
+        availableCuisines,
+        filteredRestaurants: computeFiltered(data, state.searchQuery, state.selectedCuisine, state.nearMeActive, state.userLocation)
+      }))
+    },
+    
+    setSelectedRestaurant: (restaurant) => set({ selectedRestaurant: restaurant }),
+    
+    setSearchQuery: (query) => set((state) => ({ 
+      searchQuery: query,
+      filteredRestaurants: computeFiltered(state.restaurants, query, state.selectedCuisine, state.nearMeActive, state.userLocation)
+    })),
+    
+    setSelectedCuisine: (cuisine) => set((state) => ({ 
+      selectedCuisine: cuisine,
+      filteredRestaurants: computeFiltered(state.restaurants, state.searchQuery, cuisine, state.nearMeActive, state.userLocation)
+    })),
+    
+    setUserLocation: (coords) => {
+      const { restaurants, searchQuery, selectedCuisine, nearMeActive } = get()
+      let nearestIds = []
+      
+      if (coords && restaurants.length > 0) {
+        const distances = restaurants.map(r => ({
+          id: `${r.name}-${r.city}`,
+          distance: calculateDistance(coords.lat, coords.lng, r.lat, r.lng)
+        }))
+        distances.sort((a, b) => a.distance - b.distance)
+        nearestIds = distances.slice(0, 5).map(d => d.id)
+      }
+      
+      set({ 
+        userLocation: coords, 
+        nearestRestaurantIds: nearestIds,
+        filteredRestaurants: computeFiltered(restaurants, searchQuery, selectedCuisine, nearMeActive, coords)
+      })
+    },
+    
+    setNearMeActive: (bool) => set((state) => ({ 
+      nearMeActive: bool,
+      filteredRestaurants: computeFiltered(state.restaurants, state.searchQuery, state.selectedCuisine, bool, state.userLocation)
+    })),
+    
+    setLoading: (bool) => set({ loading: bool }),
+    setError: (msg) => set({ error: msg }),
+  }
+})

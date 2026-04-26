@@ -19,7 +19,7 @@ function MapController({ onMapReady }) {
 
 export function MapView({ onMapReady }) {
   const state = useRestaurantStore()
-  const filteredRestaurants = state.filteredRestaurants()
+  const filteredRestaurants = state.filteredRestaurants
 
   return (
     <div style={{ height: '100%', width: '100%' }}>

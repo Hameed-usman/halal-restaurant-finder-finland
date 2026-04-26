@@ -1,7 +1,7 @@
 import { useRestaurantStore } from '../../store/useRestaurantStore';
 
 export function CuisineFilter() {
-  const availableCuisines = useRestaurantStore((state) => state.availableCuisines());
+  const availableCuisines = useRestaurantStore((state) => state.availableCuisines);
   const selectedCuisine = useRestaurantStore((state) => state.selectedCuisine);
   const setSelectedCuisine = useRestaurantStore((state) => state.setSelectedCuisine);
 
