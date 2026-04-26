@@ -1,4 +1,5 @@
 import { HALAL_STATUS } from '../../constants'
+import PropTypes from 'prop-types'
 
 export function Badge({ status }) {
   let badgeStyle = "bg-gray-200 text-gray-700"
@@ -27,4 +28,8 @@ export function Badge({ status }) {
       {text}
     </div>
   )
+}
+
+Badge.propTypes = {
+  status: PropTypes.string
 }

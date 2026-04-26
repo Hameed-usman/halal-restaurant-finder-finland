@@ -1,16 +1,36 @@
-# React + Vite
+# Halal Restaurant Finder Finland 🇫🇮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application to help you discover verified halal restaurants, mosques, and halal-friendly options across Finland. Built with React, Vite, and Zustand for state management.
 
-Currently, two official plugins are available:
+## Features
+- **Interactive Map**: View all restaurants on a dynamic Leaflet map.
+- **Real-time Search**: Search restaurants by name or city with instant results.
+- **Cuisine Filters**: Filter dynamically based on available data from the sheet.
+- **Near Me**: Find the closest halal restaurants using geolocation API.
+- **Responsive Layout**: Optimized for both desktop and mobile devices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- React 18
+- Vite
+- Tailwind CSS
+- Zustand (State Management)
+- React Leaflet (Maps)
+- Papaparse (CSV parsing)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Install dependencies:
+```bash
+npm install
+```
 
-## Expanding the ESLint configuration
+2. Set up environment variables:
+Create a `.env` file and add the Google Sheets CSV URL:
+```env
+VITE_SHEET_URL=your_google_sheets_csv_url
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. Start development server:
+```bash
+npm run dev
+```

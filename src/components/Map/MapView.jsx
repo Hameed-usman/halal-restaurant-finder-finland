@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import { MAP_DEFAULTS } from '../../constants'
 import { useRestaurantStore } from '../../store/useRestaurantStore'
@@ -28,14 +29,22 @@ export function MapView({ onMapReady }) {
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapController onMapReady={onMapReady} />
-        {filteredRestaurants.map((restaurant, index) => (
-          <RestaurantMarker key={`${restaurant.name}-${index}`} restaurant={restaurant} />
+        {filteredRestaurants.map((restaurant) => (
+          <RestaurantMarker key={`${restaurant.name}-${restaurant.city}`} restaurant={restaurant} />
         ))}
       </MapContainer>
     </div>
   )
+}
+
+MapController.propTypes = {
+  onMapReady: PropTypes.func
+}
+
+MapView.propTypes = {
+  onMapReady: PropTypes.func
 }

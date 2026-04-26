@@ -8,6 +8,7 @@ export const useRestaurantStore = create((set, get) => ({
   selectedCuisine: '',
   userLocation: null,
   nearMeActive: false,
+  nearestRestaurantIds: [],
   loading: false,
   error: null,
 
@@ -15,7 +16,20 @@ export const useRestaurantStore = create((set, get) => ({
   setSelectedRestaurant: (restaurant) => set({ selectedRestaurant: restaurant }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   setSelectedCuisine: (cuisine) => set({ selectedCuisine: cuisine }),
-  setUserLocation: (coords) => set({ userLocation: coords }),
+  setUserLocation: (coords) => {
+    const { restaurants } = get()
+    if (coords && restaurants.length > 0) {
+      const distances = restaurants.map(r => ({
+        id: `${r.name}-${r.city}`,
+        distance: calculateDistance(coords.lat, coords.lng, r.lat, r.lng)
+      }))
+      distances.sort((a, b) => a.distance - b.distance)
+      const top5Ids = distances.slice(0, 5).map(d => d.id)
+      set({ userLocation: coords, nearestRestaurantIds: top5Ids })
+    } else {
+      set({ userLocation: coords, nearestRestaurantIds: [] })
+    }
+  },
   setNearMeActive: (bool) => set({ nearMeActive: bool }),
   setLoading: (bool) => set({ loading: bool }),
   setError: (msg) => set({ error: msg }),

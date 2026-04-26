@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import { Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import { useRestaurantStore } from '../../store/useRestaurantStore'
@@ -8,18 +9,16 @@ export function RestaurantMarker({ restaurant }) {
   const state = useRestaurantStore()
   const setSelectedRestaurant = state.setSelectedRestaurant
   const nearMeActive = state.nearMeActive
-  const filteredRestaurants = state.filteredRestaurants()
+  const nearestRestaurantIds = state.nearestRestaurantIds
 
   const pinColor = useMemo(() => {
     if (nearMeActive) {
-      // Assuming filteredRestaurants is already sorted by distance
-      const top5 = filteredRestaurants.slice(0, 5)
-      if (top5.some((r) => r.name === restaurant.name && r.city === restaurant.city)) {
+      if (nearestRestaurantIds.includes(`${restaurant.name}-${restaurant.city}`)) {
         return NEAR_ME.highlightColor
       }
     }
     return CUISINE_COLORS[restaurant.cuisine] ?? CUISINE_COLORS.Default
-  }, [nearMeActive, filteredRestaurants, restaurant])
+  }, [nearMeActive, nearestRestaurantIds, restaurant])
 
   const icon = useMemo(() => {
     return L.divIcon({
@@ -52,4 +51,14 @@ export function RestaurantMarker({ restaurant }) {
       </Popup>
     </Marker>
   )
+}
+
+RestaurantMarker.propTypes = {
+  restaurant: PropTypes.shape({
+    name: PropTypes.string,
+    city: PropTypes.string,
+    lat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    lng: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    cuisine: PropTypes.string
+  }).isRequired
 }

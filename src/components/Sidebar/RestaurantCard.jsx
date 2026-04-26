@@ -158,6 +158,7 @@
 
 
 import { Badge } from '../UI/Badge'
+import PropTypes from 'prop-types'
 
 // Fallback high quality food image from Unsplash
 const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
@@ -316,4 +317,9 @@ export function RestaurantCard({ restaurant, variant = "compact" }) {
   }
 
   return null
+}
+
+RestaurantCard.propTypes = {
+  restaurant: PropTypes.object.isRequired,
+  variant: PropTypes.string
 }
