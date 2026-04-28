@@ -46,7 +46,7 @@ export function Sidebar() {
   if (selectedRestaurant) {
     return (
       <div className="w-full md:w-1/2 h-full bg-white relative flex flex-col shrink-0 border-l border-gray-200 z-10 shadow-2xl sidebar full-height">
-        <button 
+        <button
           onClick={() => setSelectedRestaurant(null)}
           className="absolute top-4 left-4 z-20 p-2 bg-white/80 backdrop-blur-md rounded-full text-gray-900 shadow hover:bg-white transition-colors"
         >
