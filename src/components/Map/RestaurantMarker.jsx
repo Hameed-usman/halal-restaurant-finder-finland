@@ -42,12 +42,20 @@ export function RestaurantMarker({ restaurant }) {
       icon={icon}
       eventHandlers={{
         click: () => setSelectedRestaurant(restaurant),
+        mouseover: (e) => {
+          e.target.openPopup()
+        },
+        mouseout: (e) => {
+          e.target.closePopup()
+        }
       }}
     >
-      <Popup>
-        <strong>{restaurant.name}</strong>
-        <br />
-        {restaurant.city}
+      <Popup closeButton={false}>
+        <div style={{ pointerEvents: 'none' }}>
+          <strong>{restaurant.name}</strong>
+          <br />
+          {restaurant.city}
+        </div>
       </Popup>
     </Marker>
   )

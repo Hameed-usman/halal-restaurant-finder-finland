@@ -14,10 +14,10 @@ export const useRestaurants = () => {
 
   useEffect(() => {
     const controller = new AbortController()
-    const url = import.meta.env.VITE_SHEET_URL
+    const url = import.meta.env.VITE_SHEET_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZ5ewZpT_FcAuxKGMpe_MbX5oKwAvZyunvXDC6qvwAy_h5tlzVAVYAZK1Y7KvZ4S08XXZCLfp9Ssri/pub?output=csv'
 
     if (!url) {
-      setError('VITE_SHEET_URL is not defined in environment variables')
+      setError('Restaurant data source is not available')
       setLoading(false)
       return
     }

@@ -20,6 +20,12 @@ export function SearchBar() {
     }, 150);
   };
 
+  const handleClear = () => {
+    setLocalValue('');
+    setSearchQuery('');
+    if (debounceTimer) clearTimeout(debounceTimer);
+  };
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -37,19 +43,43 @@ export function SearchBar() {
         onChange={handleChange}
         aria-label="Search restaurants"
       />
-      <svg
-        className="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-      </svg>
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
+        {localValue ? (
+          <button
+            onClick={handleClear}
+            className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-green-600 focus:outline-none"
+            aria-label="Clear search"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        ) : (
+          <svg
+            className="w-4 h-4 text-gray-400 pointer-events-none"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        )}
+      </div>
     </div>
   );
 }
