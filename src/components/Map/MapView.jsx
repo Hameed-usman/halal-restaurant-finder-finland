@@ -7,12 +7,39 @@ import { RestaurantMarker } from './RestaurantMarker'
 
 function MapController({ onMapReady }) {
   const map = useMap()
+  const selectedRestaurant = useRestaurantStore(state => state.selectedRestaurant)
+  const filteredRestaurants = useRestaurantStore(state => state.filteredRestaurants)
   
   useEffect(() => {
     if (onMapReady) {
       onMapReady(map)
     }
   }, [map, onMapReady])
+
+  // Effect to focus on search results
+  useEffect(() => {
+    if (filteredRestaurants.length > 0) {
+      // If only one restaurant is found, fly to it
+      if (filteredRestaurants.length === 1) {
+        const r = filteredRestaurants[0]
+        map.flyTo([r.lat, r.lng], 16, { duration: 1 })
+      } else {
+        // If multiple are found, fit bounds to show all
+        const bounds = filteredRestaurants.map(r => [r.lat, r.lng])
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 })
+      }
+    }
+  }, [filteredRestaurants, map])
+
+  // Effect to focus on selected restaurant (card click)
+  useEffect(() => {
+    if (selectedRestaurant && selectedRestaurant.lat && selectedRestaurant.lng) {
+      map.flyTo([selectedRestaurant.lat, selectedRestaurant.lng], 16, {
+        duration: 1.5,
+        easeLinearity: 0.25
+      })
+    }
+  }, [selectedRestaurant, map])
   
   return null
 }
@@ -35,8 +62,8 @@ export function MapView({ onMapReady }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapController onMapReady={onMapReady} />
-        {filteredRestaurants.map((restaurant) => (
-          <RestaurantMarker key={`${restaurant.name}-${restaurant.city}`} restaurant={restaurant} />
+        {filteredRestaurants.map((restaurant, idx) => (
+          <RestaurantMarker key={`${restaurant.name}-${restaurant.city}-${idx}`} restaurant={restaurant} />
         ))}
       </MapContainer>
     </div>

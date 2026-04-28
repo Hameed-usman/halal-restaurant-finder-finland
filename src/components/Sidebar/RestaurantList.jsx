@@ -31,14 +31,14 @@ export function RestaurantList() {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {filteredRestaurants.map((restaurant) => {
+            {filteredRestaurants.map((restaurant, idx) => {
               const isSelected = selectedRestaurant && 
                 selectedRestaurant.name === restaurant.name && 
                 selectedRestaurant.city === restaurant.city;
 
               return (
                 <div 
-                  key={`${restaurant.name}-${restaurant.city}`}
+                  key={`${restaurant.name}-${restaurant.city}-${idx}`}
                   onClick={() => setSelectedRestaurant(restaurant)}
                   className={`transition-all duration-200 ${isSelected ? 'ring-2 ring-[#0b4d2a] ring-offset-2 rounded-2xl shadow-lg scale-[1.02]' : ''}`}
                 >

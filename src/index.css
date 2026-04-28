@@ -8,8 +8,11 @@
   }
 
   .map-container {
-    height: 60vh;
+    height: 100vh; /* Map takes full height as background */
     width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .sidebar {
@@ -17,10 +20,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 45vh;
+    height: 40vh; /* Bottom sheet style */
+    background: white;
     overflow-y: auto;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    transition: height 0.3s ease;
+  }
+
+  .sidebar.full-height {
+    height: 90vh;
   }
 }

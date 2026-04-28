@@ -16,8 +16,8 @@ export function SearchBar() {
     }
 
     debounceTimer = setTimeout(() => {
-      setSearchQuery(value.trim().toLowerCase());
-    }, 300);
+      setSearchQuery(value.trim());
+    }, 150);
   };
 
   // Cleanup on unmount
@@ -28,7 +28,7 @@ export function SearchBar() {
   }, []);
 
   return (
-    <div className="relative hidden md:block w-full max-w-[250px] md:w-64">
+    <div className="relative w-full max-w-[150px] md:max-w-[250px]">
       <input
         type="text"
         placeholder="Search restaurants or cities..."

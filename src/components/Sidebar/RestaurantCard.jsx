@@ -205,8 +205,17 @@ export function RestaurantCard({ restaurant, variant = "compact" }) {
             </div>
           </div>
 
-          <p className="text-gray-500 text-sm">
-            {cuisine} • {fullAddress.split(',')[0]} {/* Show just street address */}
+          <p className="text-gray-500 text-sm flex items-center gap-1 flex-wrap">
+            <span>{cuisine}</span>
+            <span>•</span>
+            <span>{fullAddress.split(',')[0]}</span>
+            {restaurant.distance && (
+              <>
+                <span className="text-green-600 font-bold ml-1">
+                  • {restaurant.distance < 1 ? `${(restaurant.distance * 1000).toFixed(0)}m` : `${restaurant.distance.toFixed(1)}km`} away
+                </span>
+              </>
+            )}
           </p>
 
           <div className="flex items-center gap-2 mt-2">

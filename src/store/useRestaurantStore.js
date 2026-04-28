@@ -7,16 +7,20 @@ export const useRestaurantStore = create((set, get) => {
     let result = [...restaurants]
 
     if (searchQuery !== '') {
-      const q = searchQuery.toLowerCase()
+      const q = searchQuery.toLowerCase().trim()
       result = result.filter(
         (r) =>
           (r.name && r.name.toLowerCase().includes(q)) ||
-          (r.city && r.city.toLowerCase().includes(q))
+          (r.city && r.city.toLowerCase().includes(q)) ||
+          (r.address && r.address.toLowerCase().includes(q)) ||
+          (r.cuisine && r.cuisine.toLowerCase().includes(q))
       )
     }
 
-    if (selectedCuisine !== '') {
-      result = result.filter((r) => r.cuisine === selectedCuisine)
+    if (selectedCuisine && selectedCuisine !== '') {
+      result = result.filter((r) => 
+        r.cuisine && r.cuisine.toLowerCase() === selectedCuisine.toLowerCase()
+      )
     }
 
     if (nearMeActive && userLocation) {
@@ -70,8 +74,8 @@ export const useRestaurantStore = create((set, get) => {
       let nearestIds = []
       
       if (coords && restaurants.length > 0) {
-        const distances = restaurants.map(r => ({
-          id: `${r.name}-${r.city}`,
+        const distances = restaurants.map((r, idx) => ({
+          id: `${r.name}-${r.city}-${idx}`,
           distance: calculateDistance(coords.lat, coords.lng, r.lat, r.lng)
         }))
         distances.sort((a, b) => a.distance - b.distance)

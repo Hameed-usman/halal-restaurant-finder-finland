@@ -9,7 +9,7 @@ export function Sidebar() {
 
   // Left Navigation Panel
   const NavPanel = () => (
-    <div className="w-64 bg-[#e8f5e9] h-full flex flex-col shrink-0 border-r border-green-100">
+    <div className="hidden md:flex w-64 bg-[#e8f5e9] h-full flex-col shrink-0 border-r border-green-100">
       <div className="p-6">
         <h1 className="text-xl font-bold text-[#0b4d2a]">Nordic Concierge</h1>
         <p className="text-xs text-green-700 mt-1">Halal Finder Finland</p>
@@ -21,7 +21,7 @@ export function Sidebar() {
           Restaurants
         </a>
         <a href="#" className="flex items-center gap-3 px-4 py-3 text-green-800 hover:bg-[#d0e8d5] rounded-xl font-semibold transition-colors">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1-4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
           Mosques
         </a>
         <a href="#" className="flex items-center gap-3 px-4 py-3 text-green-800 hover:bg-[#d0e8d5] rounded-xl font-semibold transition-colors">
@@ -45,7 +45,7 @@ export function Sidebar() {
 
   if (selectedRestaurant) {
     return (
-      <div className="w-full md:w-1/2 h-full bg-white relative flex flex-col shrink-0 border-l border-gray-200 z-10 shadow-2xl sidebar">
+      <div className="w-full md:w-1/2 h-full bg-white relative flex flex-col shrink-0 border-l border-gray-200 z-10 shadow-2xl sidebar full-height">
         <button 
           onClick={() => setSelectedRestaurant(null)}
           className="absolute top-4 left-4 z-20 p-2 bg-white/80 backdrop-blur-md rounded-full text-gray-900 shadow hover:bg-white transition-colors"
@@ -60,7 +60,7 @@ export function Sidebar() {
   return (
     <div className="w-full md:w-1/2 h-full flex shrink-0 border-r border-gray-200 sidebar">
       <NavPanel />
-      <div className="flex-1 bg-[#f4f7f5]">
+      <div className="flex-1 bg-[#f4f7f5] w-full">
         <RestaurantList />
       </div>
     </div>

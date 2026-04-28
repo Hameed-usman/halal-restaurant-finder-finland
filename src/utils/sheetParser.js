@@ -10,8 +10,8 @@ export const parseSheetData = (csvText) => {
   const lines = csvText.split(/\r?\n/).filter(line => line.trim())
   if (lines.length < 2) return []
 
-  // Split headers (assumes headers are simple and don't contain commas)
-  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''))
+  // Split headers and normalize to lowercase
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase())
 
   return lines.slice(1).map(line => {
     const values = []
