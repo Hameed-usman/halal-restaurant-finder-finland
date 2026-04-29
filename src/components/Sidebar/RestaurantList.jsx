@@ -1,14 +1,17 @@
 import { useRestaurantStore } from '../../store/useRestaurantStore'
+import { useFilteredRestaurants } from '../../hooks/useFilteredRestaurants'
 import { RestaurantCard } from './RestaurantCard'
 import { CuisineFilter } from '../Filters/CuisineFilter'
 import { LoadingSpinner } from '../UI/LoadingSpinner'
 
 export function RestaurantList() {
   const state = useRestaurantStore()
-  const filteredRestaurants = state.filteredRestaurants
+  const { filteredRestaurants } = useFilteredRestaurants()
   const selectedRestaurant = state.selectedRestaurant
   const setSelectedRestaurant = state.setSelectedRestaurant
   const loading = state.loading
+  const error = state.error
+
   return (
     <div className="flex flex-col h-full bg-[#f4f7f5] overflow-hidden p-6 gap-6">
       <div className="shrink-0">
@@ -23,7 +26,12 @@ export function RestaurantList() {
       </div>
 
       <div className="flex-1 overflow-y-auto pr-2">
-        {loading ? (
+        {error ? (
+          <div className="flex flex-col items-center justify-center h-full text-center p-6 bg-red-50 rounded-2xl border border-red-100">
+             <p className="text-red-600 font-semibold mb-2">Failed to load restaurants</p>
+             <p className="text-red-500 text-sm">{error}</p>
+          </div>
+        ) : loading ? (
           <LoadingSpinner />
         ) : filteredRestaurants.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-500 font-medium">

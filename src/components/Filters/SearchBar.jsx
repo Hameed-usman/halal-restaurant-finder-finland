@@ -1,35 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRestaurantStore } from '../../store/useRestaurantStore';
-
-let debounceTimer;
 
 export function SearchBar() {
   const [localValue, setLocalValue] = useState('');
   const setSearchQuery = useRestaurantStore((state) => state.setSearchQuery);
+  const timerRef = useRef(null);
 
   const handleChange = (e) => {
     const value = e.target.value;
     setLocalValue(value);
 
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
     }
 
-    debounceTimer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setSearchQuery(value.trim());
-    }, 150);
+    }, 300);
   };
 
   const handleClear = () => {
     setLocalValue('');
     setSearchQuery('');
-    if (debounceTimer) clearTimeout(debounceTimer);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
   };
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (debounceTimer) clearTimeout(debounceTimer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
   }, []);
 

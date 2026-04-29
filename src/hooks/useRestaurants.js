@@ -28,15 +28,15 @@ export const useRestaurants = () => {
         setError(null)
 
         const response = await fetch(url, { signal: controller.signal })
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`)
         }
 
         const csvText = await response.text()
         const data = parseSheetData(csvText)
-        
-        console.log('✅ CSV Restaurants loaded from URL:', data)
+
+        // console.log('✅ CSV Restaurants loaded from URL:', data)
         setRestaurants(data)
       } catch (err) {
         if (err.name === 'AbortError') {

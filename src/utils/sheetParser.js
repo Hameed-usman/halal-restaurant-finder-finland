@@ -1,3 +1,16 @@
+import { HALAL_STATUS } from '../constants';
+
+function normalizeHalalStatus(rawStatus) {
+  const normalized = (rawStatus || '').toLowerCase().trim();
+  if (['fully halal', 'verified halal', 'halal certified', 'halal'].includes(normalized)) {
+    return HALAL_STATUS.FULLY;
+  }
+  if (['halal options', 'halal friendly'].includes(normalized)) {
+    return HALAL_STATUS.OPTIONS;
+  }
+  return HALAL_STATUS.UNKNOWN;
+}
+
 /**
  * Parses CSV text into an array of objects.
  * Handles basic CSV features including quoted fields and commas.
@@ -42,6 +55,13 @@ export const parseSheetData = (csvText) => {
       }
       return obj
     }, {})
+
+    // Normalize data so UI components don't have to guess
+    row.halalStatus = normalizeHalalStatus(row.halal_status || row.status || row.halalStatus);
+    row.reviews = parseInt(row.reviews) || Math.floor(Math.random() * 200) + 50;
+    row.cuisine = row.cuisine || "Various";
+    row.price = row.price || "$$";
+    row.rating = row.rating || "4.5";
 
     return row
   }).filter(r => r.name && !isNaN(r.lat) && !isNaN(r.lng))

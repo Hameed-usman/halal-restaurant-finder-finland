@@ -5,17 +5,17 @@ export function Badge({ status }) {
   let badgeStyle = "bg-gray-200 text-gray-700"
   let text = "NOT SPECIFIED"
 
-  if (status === HALAL_STATUS.FULLY || status === 'Fully Halal' || status === 'Verified Halal' || status === 'VERIFIED HALAL' || status === 'Halal Certified' || status === 'Halal') {
-    badgeStyle = "bg-[#0b4d2a] text-white" // Dark green matching the image
+  if (status === HALAL_STATUS.FULLY) {
+    badgeStyle = "bg-[#0b4d2a] text-white"
     text = "VERIFIED HALAL"
-  } else if (status === HALAL_STATUS.OPTIONS || status === 'Halal Options' || status === 'Halal Friendly') {
+  } else if (status === HALAL_STATUS.OPTIONS) {
     badgeStyle = "bg-amber-100 text-amber-800"
     text = "HALAL OPTIONS"
-  } else if (status === HALAL_STATUS.UNKNOWN || status === 'Not Specified' || !status) {
+  } else if (status === HALAL_STATUS.UNKNOWN) {
     badgeStyle = "bg-gray-200 text-gray-700"
     text = "NOT SPECIFIED"
   } else {
-    text = status.toUpperCase()
+    text = status ? status.toUpperCase() : "NOT SPECIFIED"
   }
 
   return (

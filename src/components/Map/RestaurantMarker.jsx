@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import { Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import { useRestaurantStore } from '../../store/useRestaurantStore'
+import { useFilteredRestaurants } from '../../hooks/useFilteredRestaurants'
 import { NEAR_ME, CUISINE_COLORS } from '../../constants'
 
 export function RestaurantMarker({ restaurant }) {
   const state = useRestaurantStore()
+  const { nearestRestaurantIds } = useFilteredRestaurants()
   const setSelectedRestaurant = state.setSelectedRestaurant
   const nearMeActive = state.nearMeActive
-  const nearestRestaurantIds = state.nearestRestaurantIds
 
   const pinColor = useMemo(() => {
     if (nearMeActive) {

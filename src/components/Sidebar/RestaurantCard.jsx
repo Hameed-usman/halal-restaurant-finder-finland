@@ -42,12 +42,12 @@ const getRestaurantImage = (restaurant) => {
 export function RestaurantCard({ restaurant, variant = "compact" }) {
   const imageUrl = getRestaurantImage(restaurant)
 
-  // Handle different possible field names from CSV
-  const halalStatus = restaurant.halal_status || restaurant.status || restaurant.halalStatus || "Not Specified"
-  const cuisine = restaurant.cuisine || "Various"
-  const price = restaurant.price || "$$"
-  const rating = restaurant.rating || "4.5"
-  const reviews = restaurant.reviews || Math.floor(Math.random() * 200) + 50 // Random if not provided
+  // Read clean data from the normalized restaurant object
+  const halalStatus = restaurant.halalStatus;
+  const cuisine = restaurant.cuisine;
+  const price = restaurant.price;
+  const rating = restaurant.rating;
+  const reviews = restaurant.reviews;
 
   // Build full address from CSV fields
   const fullAddress = restaurant.address

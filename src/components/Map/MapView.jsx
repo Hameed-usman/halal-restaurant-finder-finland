@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import { MAP_DEFAULTS } from '../../constants'
 import { useRestaurantStore } from '../../store/useRestaurantStore'
+import { useFilteredRestaurants } from '../../hooks/useFilteredRestaurants'
 import { RestaurantMarker } from './RestaurantMarker'
 
 function MapController({ onMapReady }) {
   const map = useMap()
   const selectedRestaurant = useRestaurantStore(state => state.selectedRestaurant)
-  const filteredRestaurants = useRestaurantStore(state => state.filteredRestaurants)
+  const { filteredRestaurants } = useFilteredRestaurants()
   
   useEffect(() => {
     if (onMapReady) {
@@ -45,8 +46,7 @@ function MapController({ onMapReady }) {
 }
 
 export function MapView({ onMapReady }) {
-  const state = useRestaurantStore()
-  const filteredRestaurants = state.filteredRestaurants
+  const { filteredRestaurants } = useFilteredRestaurants()
 
   return (
     <div style={{ height: '100%', width: '100%' }}>

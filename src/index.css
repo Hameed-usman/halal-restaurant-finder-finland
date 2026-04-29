@@ -20,7 +20,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 40vh; /* Bottom sheet style */
+    height: 55vh; /* Increased from 40vh to give more visibility to the list */
     background: white;
     overflow-y: auto;
     border-radius: 24px 24px 0 0;
@@ -30,6 +30,11 @@
   }
 
   .sidebar.full-height {
-    height: 90vh;
+    height: 75vh; /* Reduced from 90vh so the map remains partially visible */
+  }
+
+  /* Hide zoom controls on mobile for a cleaner map (users can pinch to zoom) */
+  .leaflet-control-zoom {
+    display: none !important;
   }
 }
